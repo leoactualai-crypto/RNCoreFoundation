@@ -1,0 +1,33 @@
+# Adopt 'it' Function as Standard Test Case Declaration in React Native Projects: Projects Use Test
+
+These rules are ALWAYS ACTIVE for all React Native component test files, unit tests for React Native modules and utilities, integration tests within React Native applications, and test files using Jest as the test runner.
+
+### Rules
+
+- **R-RNTST-001** MUST: Use the 'it' function for test case declarations in all React Native test files.
+- **R-RNTST-002** MAY: Projects MAY use 'test' as an alias for 'it' where Jest is configured to support both syntaxes.
+- **R-RNTST-003** MUST: Organize test files in `__tests__` directories with naming convention `<ComponentName>-test.tsx`.
+- **R-RNTST-004** MUST: Provide descriptive string labels for all 'it' test case declarations to improve test output readability.
+
+### Verify
+
+```bash
+# Verify 'it' function usage in test files
+grep -r "^[[:space:]]*it('" template/src/__tests__/ || echo 'No it() declarations found'
+
+# Verify test file naming convention
+find . -path '*/__tests__/*-test.tsx' -type f | head -5
+
+# Verify ESLint jest/consistent-test-it rule configuration
+npx eslint --print-config template/src/__tests__/App-test.tsx | grep -A 5 'jest/consistent-test-it' || echo 'Linting rule not configured'
+```
+
+**Accept when:**
+- All test files in `__tests__` directories use 'it' function for test case declarations
+- ESLint configuration includes jest/consistent-test-it rule enforcing 'it' syntax
+- Test files follow the naming pattern `<ComponentName>-test.tsx` and are located in `__tests__` directories
+- All 'it' declarations include descriptive string labels
+
+<enforcement>
+Claude Code MUST NOT skip or defer verification. ESLint violations related to test declaration syntax MUST cause CI pipeline failure. Code review MUST verify test file structure compliance. Violations require actionable error messages and technical lead approval for exceptions.
+</enforcement>
